@@ -1,8 +1,8 @@
-/* Day 5: stacks of crates.
+/* Day 5: Stacks of crates.
 stacks go from data[i] with i = 7 -> 0
-insctructions start from data[i] i=10
-stack[0] = data[i][j] with j = 0 -> 2
-stack[1] = data[i][j] with j = 3->5
+Instructions start from data[i] with i=10
+The list of instructions defines how many crates and from which stack of crated to another is realized by the crane. The crane moves crates one by one.
+At the end of the operations, what are the crates that are on the top of each stack?
 
 */
 
@@ -39,44 +39,28 @@ function getActualStackHeight(stacks: string[][], stackNb: number) {
     return currentStackHeight + 1;
 }
 
-function craneOperation(NbOfCrates: number, fromStack: number, toStack: number) {
-    // let currentStack = newStacks[fromStack - 1];
-    const currentStackHeight = getActualStackHeight(newStacks, fromStack);
-    // // console.log("🚀 ~ file: script.ts:59 ~ craneOperation ~ currentStackHeight", currentStackHeight);
-    // let destinationStackHeight = getActualStackHeight(newStacks, toStack);
-    // // console.log("🚀 ~ file: script.ts:61 ~ craneOperation ~ destinationStackHeight", destinationStackHeight);
-    // for (let index = currentStackHeight - 1; index >= currentStackHeight - NbOfCrates; index--) {
-    //     const crate = newStacks[fromStack - 1].pop()!;
-    //     // console.log("🚀 ~ file: script.ts:66 ~ craneOperation ~ crate", crate);
-    //     newStacks[fromStack - 1].splice(index, 1, " ");
-    //     newStacks[toStack - 1][destinationStackHeight] = crate;
-    //     destinationStackHeight++;
-    // }
-    // return newStacks;
-    const cratesToMove: string[] = [];
-    for (let index = 0; index < NbOfCrates; index++) {
-        const crate = NbOfCrates;
-        cratesToMove.push(newStacks[fromStack - 1].pop()!);
-    }
-    newStacks[toStack - 1].push(...cratesToMove);
-}
-
-// craneOperation(3, 6, 2);
 
 //could use regExp to isolate digits with match()
 function getInstructions(instructions: string[]) {
     let newInstructions: number[][] = [];
     for (let index = 0; index < instructions.length; index++) {
         const instruction = instructions[index];
-        console.log("🚀 ~ file: script.ts:78 ~ getInstructions ~ instruction", instruction);
         let numberOfCrates = parseInt(instruction.substring(instruction.indexOf('move ') + "move ".length, instruction.indexOf(' ', instruction.indexOf('move ') + "move ".length)));
-        // instruction.indexOf('move ')
         let fromStack = parseInt(instruction.substring(instruction.indexOf('from ') + "from ".length, instruction.indexOf("to")));
         let toStack = parseInt(instruction.substring(instruction.indexOf('to ') + "to ".length));
         const newInstruction = [numberOfCrates, fromStack, toStack];
         newInstructions.push(newInstruction);
     }
     return newInstructions;
+}
+
+function craneOperation(NbOfCrates: number, fromStack: number, toStack: number) {
+    const cratesToMove: string[] = [];
+    for (let index = 0; index < NbOfCrates; index++) {
+        const crate = NbOfCrates;
+        cratesToMove.push(startStacksPosition[fromStack - 1].pop()!);
+    }
+    return startStacksPosition[toStack - 1].push(...cratesToMove);
 }
 
 function realizeOperation(instruction: number[]) {
@@ -87,8 +71,8 @@ function realizeOperation(instruction: number[]) {
 function realizeAllOperations(instructions: number[][]) {
     for (const instruction of instructions) {
         realizeOperation(instruction);
-        // console.log(newStacks);
     }
+    return startStacksPosition;
 }
 
 function getTopCrates(stacks: string[][]) {
@@ -98,33 +82,32 @@ function getTopCrates(stacks: string[][]) {
     }
     console.log("🚀 ~ file: script.ts:108 ~ getTopCrates ~ topCrates", topCrates);
 }
-const newStacks = getStacks(stacks);
-console.log("🚀 ~ file: script.ts:33 ~ newStacks", newStacks);
-
+const startStacksPosition = getStacks(stacks);
 const newInstructions = getInstructions(instructions);
-console.log("🚀 ~ file: script.ts:88 ~ newInsctructions", newInstructions);
 
 // Part 1
-// realizeAllOperations(newInstructions);
-// getTopCrates(newStacks);
+const newStacks = realizeAllOperations(newInstructions);
+console.log("Part 1 result: FJSRQCFTN");
+getTopCrates(newStacks);
 
 // Part 2: crates are no longer moved one by one, but by length of crates to move. It ocould simply be a reverse of the original pop().
 function craneOperation2(NbOfCrates: number, fromStack: number, toStack: number) {
     const cratesToMove: string[] = [];
     for (let index = 0; index < NbOfCrates; index++) {
         const crate = NbOfCrates;
-        cratesToMove.push(newStacks[fromStack - 1].pop()!);
+        cratesToMove.push(startStacksPosition2[fromStack - 1].pop()!);
     }
-    newStacks[toStack - 1].push(...cratesToMove.reverse());
+    startStacksPosition2[toStack - 1].push(...cratesToMove.reverse());
 }
 
 function realizePart2Operations(instructions: number[][]) {
     for (const instruction of instructions) {
         const [count, from, to] = instruction;
         craneOperation2(count, from, to);
-        // console.log(newStacks);
     }
 }
 
+const startStacksPosition2 = getStacks(stacks);
 realizePart2Operations(newInstructions);
-getTopCrates(newStacks);
+console.log("Part 2 result: CJVLJQPHS");
+getTopCrates(startStacksPosition2);

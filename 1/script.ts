@@ -1,16 +1,6 @@
-// Part 1: From the list of data, find the elf (an elf is represented by calories, numbers in a row) that is carrying the most calories.
+// Part 1: From the list of data, find the elf (an elf is represented by a sequence of numbers (calories), which are the different food and calories he's carrying. Every empty line break is followed by another elf) who is carrying the most calories.
 
-const { readFileSync } = require('fs');
-
-function syncReadFile(filename: string): string[] {
-    const contents = readFileSync(filename, 'utf-8');
-
-    const arr = contents.split(/\r?\n/);
-
-    // console.log(arr);
-
-    return arr;
-}
+import { syncReadFile } from "../utils/functions";
 
 function findCaloriesCarried(data: string[]) {
     const arrayofData: string[][] = [];
@@ -49,25 +39,11 @@ const caloriesCarried = convertStrArraytoNum(foodCarriedByAllElves);
 const totalCaloriesPerElf = addCarriedCaloriesPerElf(caloriesCarried);
 const maxCaloriedCarried = findMostCaloriesCarried(totalCaloriesPerElf);
 
-console.log('Max calories carried', maxCaloriedCarried);
+console.log('Max calories carried: 67027', maxCaloriedCarried);
+// Answer: 67027
 
 // Part 2: Find the sum of the calories carried by the top 3 elves
 const sumofTop3 = sortElvesCarrier(totalCaloriesPerElf).slice(0, 3).reduce((acc, curr) => acc + curr);
 console.log('Top 3 elves', sortElvesCarrier(totalCaloriesPerElf).slice(0, 3));
-console.log('Sum of their calories carried', sumofTop3);
-
-
-
-// console.log(arrayOfNum);
-
-// console.log(arrayofData[0].reduce((acc, curr) => (parseInt(acc) + parseInt(curr).toString())));
-
-// const reducedData = arrayOfNum.map((array => array.reduce((acc, curr) => acc + curr)));
-// // console.log(reducedData);
-
-// console.log(reducedData.sort((a, b) => b - a));
-// const max = reducedData.reduce((a, b) => Math.max(a, b), -Infinity);
-
-// console.log(max);
-
-// data.splice(0, data.indexOf(''))
+console.log('Sum of their calories carried: 197291', sumofTop3);
+// Answer: 197291
