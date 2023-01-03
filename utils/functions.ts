@@ -21,10 +21,4 @@ String.prototype.count = function (c: string): number {
     return count;
 };
 
-// String.prototype.count = function (c) {
-//     var result = 0, i = 0;
-//     for (i; i < this.length; i++)if (this[i] == c) result++;
-//     return result;
-// };
-
 export { };
