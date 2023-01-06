@@ -8,12 +8,13 @@ At the end of the operations, what are the crates that are on the top of each st
 
 import { syncReadFile } from "../utils/functions";
 
-const data = syncReadFile('./data.txt');
+const data = syncReadFile('./test.txt');
 // console.log("🚀 ~ file: script.ts:4 ~ data", data);
 
-const stacks = data.slice(0, 8);
+const stacks = data.slice(0, 4);
 console.log("🚀 ~ file: script.ts:15 ~ stacks", stacks);
-const instructions = data.slice(10);
+const instructions = data.slice(6);
+console.log("🚀 ~ file: script.ts:17 ~ instructions", instructions);
 
 
 function getStacks(data: string[]) {
@@ -54,6 +55,15 @@ function getInstructions(instructions: string[]) {
     return newInstructions;
 }
 
+function getInstructionsRegexp(instructions: string[]) {
+    let newInstructions: number[][] = [];
+    for (let index = 0; index < instructions.length; index++) {
+        const newInstruction = instructions[index].match(/\d+/g)!.map(num => +num);
+        newInstructions.push(newInstruction!);
+    }
+    return newInstructions;
+}
+
 function craneOperation(NbOfCrates: number, fromStack: number, toStack: number) {
     const cratesToMove: string[] = [];
     for (let index = 0; index < NbOfCrates; index++) {
@@ -80,9 +90,9 @@ function getTopCrates(stacks: string[][]) {
     for (const stack of stacks) {
         topCrates += stack[stack.length - 1];
     }
-    console.log("🚀 ~ file: script.ts:108 ~ getTopCrates ~ topCrates", topCrates);
 }
 const startStacksPosition = getStacks(stacks);
+// const newInstructions = getInstructions(instructions);
 const newInstructions = getInstructions(instructions);
 
 // Part 1
