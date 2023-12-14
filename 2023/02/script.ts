@@ -1,4 +1,3 @@
-import test from "node:test";
 import { syncReadFile } from "../../utils/functions";
 
 const data = syncReadFile("2023/02/data.txt");
